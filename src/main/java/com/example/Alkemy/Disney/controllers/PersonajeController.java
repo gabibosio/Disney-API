@@ -1,5 +1,6 @@
 package com.example.Alkemy.Disney.controllers;
 
+import com.example.Alkemy.Disney.Servicios.PersonajeServicio;
 import com.example.Alkemy.Disney.dtos.PersonajeDTO;
 import com.example.Alkemy.Disney.models.Personaje;
 import com.example.Alkemy.Disney.repositories.PersonajeRepository;
@@ -16,6 +17,9 @@ public class PersonajeController {
     @Autowired
     private PersonajeRepository personajeRepository;
 
+    @Autowired
+    private PersonajeServicio personajeServicio;
+
     @PostMapping("/crearPersonaje")
     public ResponseEntity<Object>  crear(@RequestParam String img,@RequestParam String nombre,
                                                   @RequestParam int edad, @RequestParam String peso,
@@ -24,7 +28,7 @@ public class PersonajeController {
             return new ResponseEntity<>("los campos no pueden estar vacios",HttpStatus.FORBIDDEN);
         }
         Personaje personaje = new Personaje(img,nombre,edad,peso,historia);
-        personajeRepository.save(personaje);
+        personajeServicio.guardarPersonaje(personaje);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -33,7 +37,7 @@ public class PersonajeController {
     public ResponseEntity<Object> editar(@PathVariable long id,@RequestParam String img,@RequestParam String nombre,
                                                   @RequestParam int edad, @RequestParam String peso,
                                                   @RequestParam String historia){
-        Personaje personaje = personajeRepository.findById(id).orElse(null);
+        Personaje personaje = personajeServicio.personajeById(id);
         if(img.isEmpty() || nombre.isEmpty() || peso.isEmpty() || historia.isEmpty() || edad <= 0 ){
             return new ResponseEntity<>("los campos no pueden estar vacios",HttpStatus.FORBIDDEN);
         }
@@ -46,18 +50,18 @@ public class PersonajeController {
             personaje.setEdad(edad);
             personaje.setPeso(peso);
             personaje.setHistoria(historia);
-            personajeRepository.save(personaje);
+            personajeServicio.guardarPersonaje(personaje);
 
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
     @DeleteMapping("/eliminarPersonaje/{id}")
     ResponseEntity<Object> eliminar(@PathVariable long id){
-        Personaje personaje = personajeRepository.findById(id).orElse(null);
+        Personaje personaje = personajeServicio.personajeById(id);
         if(personaje == null){
             return new ResponseEntity<>("personaje no encontrado",HttpStatus.FORBIDDEN);
         }
-        personajeRepository.delete(personaje);
+        personajeServicio.eliminarPersonaje(personaje);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 }
