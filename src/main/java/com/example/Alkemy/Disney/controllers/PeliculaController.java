@@ -124,6 +124,7 @@ public class PeliculaController {
         peliculaPersonajes.add(peliculaPersonaje);
         peliculaPersonajeServicio.guardarPeliculaPersonaje(peliculaPersonaje);
 
+
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
@@ -133,6 +134,11 @@ public class PeliculaController {
         Pelicula pelicula = peliculaServicio.peliculaById(idMovie);
         if(pelicula == null){
             return new ResponseEntity<>("la pelicula no existe",HttpStatus.FORBIDDEN);
+        }
+
+        Personaje personaje = personajeServicio.personajeById(idCharacter);
+        if(personaje == null){
+            return new ResponseEntity<>("el personaje no existe",HttpStatus.FORBIDDEN);
         }
 
 

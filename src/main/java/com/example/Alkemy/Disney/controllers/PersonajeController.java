@@ -4,6 +4,7 @@ import com.example.Alkemy.Disney.Servicios.PeliculaPersonajeServicio;
 import com.example.Alkemy.Disney.Servicios.PersonajeServicio;
 import com.example.Alkemy.Disney.dtos.PeliculaPersonajeDTO;
 import com.example.Alkemy.Disney.dtos.PersonajeDTO;
+import com.example.Alkemy.Disney.models.PeliculaPersonaje;
 import com.example.Alkemy.Disney.models.Personaje;
 import com.example.Alkemy.Disney.repositories.PeliculaPersonajeRepository;
 import com.example.Alkemy.Disney.repositories.PersonajeRepository;
@@ -13,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
@@ -67,6 +69,8 @@ public class PersonajeController {
         if(personaje == null){
             return new ResponseEntity<>("personaje no encontrado",HttpStatus.FORBIDDEN);
         }
+        Set<PeliculaPersonaje> peliculas = personaje.getPeliculaPersonajes();
+        peliculas.forEach(peliculaPersonaje -> peliculaPersonajeServicio.eliminarPeliculaPersonaje(peliculaPersonaje));
         personajeServicio.eliminarPersonaje(personaje);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }

@@ -1,17 +1,13 @@
 package com.example.Alkemy.Disney;
 
-import com.example.Alkemy.Disney.models.Genero;
-import com.example.Alkemy.Disney.models.Pelicula;
-import com.example.Alkemy.Disney.models.PeliculaPersonaje;
-import com.example.Alkemy.Disney.models.Personaje;
-import com.example.Alkemy.Disney.repositories.GeneroRepository;
-import com.example.Alkemy.Disney.repositories.PeliculaPersonajeRepository;
-import com.example.Alkemy.Disney.repositories.PeliculaRepository;
-import com.example.Alkemy.Disney.repositories.PersonajeRepository;
+import com.example.Alkemy.Disney.models.*;
+import com.example.Alkemy.Disney.repositories.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
 
@@ -24,11 +20,20 @@ public class Application {
 		SpringApplication.run(Application.class, args);
 	}
 
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+
 	@Bean
 	public CommandLineRunner initData(PersonajeRepository personajeRepository,
 									  PeliculaRepository peliculaRepository,
-									  PeliculaPersonajeRepository peliculaPersonajeRepository, GeneroRepository generoRepository) {
+									  PeliculaPersonajeRepository peliculaPersonajeRepository, GeneroRepository generoRepository,
+									  UsuarioRepository usuarioRepository) {
 		return (args) -> {
+
+			Usuario usuario = new Usuario("gabriel","bosio","gabriel@gmail.com", passwordEncoder.encode("asd123"));
+			usuarioRepository.save(usuario);
+			Usuario admin = new Usuario("admin","bosio","admin@admin.com", passwordEncoder.encode("asd123"));
+			usuarioRepository.save(admin);
 
 			Personaje personaje1 = new Personaje("","harry",20,"principal","");
 			personajeRepository.save(personaje1);
