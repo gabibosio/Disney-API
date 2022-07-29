@@ -32,16 +32,20 @@ public class Application {
 
 			Personaje personaje1 = new Personaje("","harry",20,"principal","");
 			personajeRepository.save(personaje1);
-			Personaje personaje2 = new Personaje("","harry",20,"principal","");
+			Personaje personaje2 = new Personaje("","Ron",20,"principal","");
 			personajeRepository.save(personaje2);
 
 			Genero genero1 = new Genero("drama","");
 			generoRepository.save(genero1);
 
-			Pelicula pelicula1 = new Pelicula("asd","afea",LocalDate.now(),1,genero1);
+			Genero genero2 = new Genero("terror","");
+			generoRepository.save(genero2);
+
+			Pelicula pelicula1 = new Pelicula("asd","Harry Potter",LocalDate.now(),1,genero1);
 			peliculaRepository.save(pelicula1);
 
-			Pelicula pelicula2 = new Pelicula("asd","afea",LocalDate.now(),1,genero1);
+
+			Pelicula pelicula2 = new Pelicula("asd","el senor de los anillos",LocalDate.now(),1,genero1);
 			peliculaRepository.save(pelicula2);
 
 			PeliculaPersonaje peliculaPersonaje = new PeliculaPersonaje(personaje1,pelicula1);

@@ -35,4 +35,14 @@ public class PeliculaImpl implements PeliculaServicio {
     public List<PeliculaDTO> getPeliculas() {
         return peliculaRepository.findAll().stream().map(pelicula1 -> new PeliculaDTO(pelicula1)).collect(Collectors.toList());
     }
+
+    @Override
+    public List<PeliculaDTO> getPeliculasByNombre(String name) {
+        return peliculaRepository.findAll().stream().filter(pelicula -> pelicula.getTitulo().equals(name)).map(pelicula -> new PeliculaDTO(pelicula)).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<PeliculaDTO> getPeliculasByGenero(long genre) {
+        return peliculaRepository.findAll().stream().filter(pelicula -> pelicula.getGenero().getId() == genre).map(pelicula -> new PeliculaDTO(pelicula)).collect(Collectors.toList());
+    }
 }

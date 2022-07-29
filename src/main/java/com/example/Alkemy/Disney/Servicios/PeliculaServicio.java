@@ -15,4 +15,8 @@ public interface PeliculaServicio {
     void eliminarPelicula(Pelicula pelicula);
 
     List<PeliculaDTO> getPeliculas();
+
+    List<PeliculaDTO> getPeliculasByNombre(String name);
+
+    List<PeliculaDTO> getPeliculasByGenero(long genre);
 }

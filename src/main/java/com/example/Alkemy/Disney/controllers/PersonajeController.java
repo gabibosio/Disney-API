@@ -1,8 +1,11 @@
 package com.example.Alkemy.Disney.controllers;
 
+import com.example.Alkemy.Disney.Servicios.PeliculaPersonajeServicio;
 import com.example.Alkemy.Disney.Servicios.PersonajeServicio;
+import com.example.Alkemy.Disney.dtos.PeliculaPersonajeDTO;
 import com.example.Alkemy.Disney.dtos.PersonajeDTO;
 import com.example.Alkemy.Disney.models.Personaje;
+import com.example.Alkemy.Disney.repositories.PeliculaPersonajeRepository;
 import com.example.Alkemy.Disney.repositories.PersonajeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,15 +13,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
+@RequestMapping("/characters")
 public class PersonajeController {
 
-    @Autowired
-    private PersonajeRepository personajeRepository;
 
     @Autowired
     private PersonajeServicio personajeServicio;
+
+    @Autowired
+    private PeliculaPersonajeServicio peliculaPersonajeServicio;
 
     @PostMapping("/crearPersonaje")
     public ResponseEntity<Object>  crear(@RequestParam String img,@RequestParam String nombre,
@@ -64,6 +70,24 @@ public class PersonajeController {
         personajeServicio.eliminarPersonaje(personaje);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
+    @GetMapping(params = "name")
+    public List<PersonajeDTO> filtroname(@RequestParam String name){
+        if(name.isEmpty()){
+            return personajeServicio.getPersonajes();
+        }
+        return personajeServicio.getPersonajesByName(name);
+    }
+
+    @GetMapping(params = "age")
+    public List<PersonajeDTO> filtroage(@RequestParam int age){
+        return personajeServicio.getPersonajesByAge(age);
+    }
+
+    @GetMapping(params = "movies")
+    public List<PeliculaPersonajeDTO> filtroid(@RequestParam long movies){
+        return peliculaPersonajeServicio.personajeIdPelicula(movies);
+    }
+
 }
 
 

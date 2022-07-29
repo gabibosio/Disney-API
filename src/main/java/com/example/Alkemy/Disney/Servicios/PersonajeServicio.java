@@ -1,5 +1,6 @@
 package com.example.Alkemy.Disney.Servicios;
 
+import com.example.Alkemy.Disney.dtos.PersonajeDTO;
 import com.example.Alkemy.Disney.models.Personaje;
 
 import java.util.List;
@@ -13,4 +14,10 @@ public interface PersonajeServicio {
     void eliminarPersonaje(Personaje personaje);
 
     List<Personaje> personajes(Set<Long> id);
+
+    List<PersonajeDTO> getPersonajes();
+
+    List<PersonajeDTO> getPersonajesByName(String name);
+
+    List<PersonajeDTO> getPersonajesByAge(int age);
 }
