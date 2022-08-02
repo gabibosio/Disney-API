@@ -1,6 +1,7 @@
 package com.example.Alkemy.Disney;
 
 import com.example.Alkemy.Disney.models.*;
+import com.example.Alkemy.Disney.models.Character;
 import com.example.Alkemy.Disney.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -24,40 +25,51 @@ public class Application {
 	private PasswordEncoder passwordEncoder;
 
 	@Bean
-	public CommandLineRunner initData(PersonajeRepository personajeRepository,
-									  PeliculaRepository peliculaRepository,
-									  PeliculaPersonajeRepository peliculaPersonajeRepository, GeneroRepository generoRepository,
-									  UsuarioRepository usuarioRepository) {
+	public CommandLineRunner initData(CharacterRepository characterRepository,
+									  MovieRepository movieRepository,
+									  MovieCharacterRepository movieCharacterRepository, GenderRepository genderRepository,
+									  ClientRepository clientRepository) {
 		return (args) -> {
 
-			Usuario usuario = new Usuario("gabriel","bosio","gabriel@gmail.com", passwordEncoder.encode("asd123"));
-			usuarioRepository.save(usuario);
-			Usuario admin = new Usuario("admin","bosio","admin@admin.com", passwordEncoder.encode("asd123"));
-			usuarioRepository.save(admin);
+			Client user = new Client("gabriel","bosio","gabriel@gmail.com", passwordEncoder.encode("asd123"));
+			clientRepository.save(user);
+			Client admin = new Client("admin","bosio","admin@admin.com", passwordEncoder.encode("asd123"));
+			clientRepository.save(admin);
 
-			Personaje personaje1 = new Personaje("","harry",20,"principal","");
-			personajeRepository.save(personaje1);
-			Personaje personaje2 = new Personaje("","Ron",20,"principal","");
-			personajeRepository.save(personaje2);
+			Character character1 = new Character("","Harry",20,"principal","");
+			characterRepository.save(character1);
+			Character character2 = new Character("","Ron",20,"principal","");
+			characterRepository.save(character2);
 
-			Genero genero1 = new Genero("drama","");
-			generoRepository.save(genero1);
+			Character character3 = new Character("","Gandalf",50,"principal","");
+			characterRepository.save(character3);
+			Character character4 = new Character("","Legolas",30,"principal","");
+			characterRepository.save(character4);
 
-			Genero genero2 = new Genero("terror","");
-			generoRepository.save(genero2);
+			Gender gender1 = new Gender("drama","");
+			genderRepository.save(gender1);
 
-			Pelicula pelicula1 = new Pelicula("asd","Harry Potter",LocalDate.now(),1,genero1);
-			peliculaRepository.save(pelicula1);
+			Gender gender2 = new Gender("terror","");
+			genderRepository.save(gender2);
+
+			Movie movie1 = new Movie("","Harry Potter",LocalDate.now(),5, gender1);
+			movieRepository.save(movie1);
 
 
-			Pelicula pelicula2 = new Pelicula("asd","el senor de los anillos",LocalDate.now(),1,genero1);
-			peliculaRepository.save(pelicula2);
+			Movie movie2 = new Movie("","el señor de los anillos",LocalDate.now().plusDays(5),5, gender1);
+			movieRepository.save(movie2);
 
-			PeliculaPersonaje peliculaPersonaje = new PeliculaPersonaje(personaje1,pelicula1);
-			peliculaPersonajeRepository.save(peliculaPersonaje);
+			MovieCharacter movieCharacter = new MovieCharacter(character1, movie1);
+			movieCharacterRepository.save(movieCharacter);
 
-			PeliculaPersonaje peliculaPersonaje2 = new PeliculaPersonaje(personaje2,pelicula1);
-			peliculaPersonajeRepository.save(peliculaPersonaje2);
+			MovieCharacter movieCharacter2 = new MovieCharacter(character2, movie1);
+			movieCharacterRepository.save(movieCharacter2);
+
+			MovieCharacter movieCharacter3 = new MovieCharacter(character3, movie2);
+			movieCharacterRepository.save(movieCharacter3);
+
+			MovieCharacter movieCharacter4 = new MovieCharacter(character4, movie2);
+			movieCharacterRepository.save(movieCharacter4);
 
 		};
 	}
